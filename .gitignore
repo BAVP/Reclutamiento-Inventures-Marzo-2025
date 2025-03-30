@@ -1,21 +1,48 @@
+################################## BACKEND #######################################
 # dependencies
-/node_modules
-/.pnp
-.pnp.js
+backend/node_modules
+backend/.pnp
+backend/.pnp.js
 
 # testing
-/coverage
+backend/coverage
 
 # production
-/build
+backend/build
 
 # misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+backend/.DS_Store
+backend/.env
+backend/.env.local
+backend/.env.development.local
+backend/.env.test.local
+backend/.env.production.local
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+backend/npm-debug.log*
+backend/yarn-debug.log*
+backend/yarn-error.log*
+
+################################## Frontend #######################################
+# dependencies
+frontend/node_modules
+frontend/.pnp
+frontend/.pnp.js
+
+# testing
+frontend/coverage
+
+# production
+frontend/build
+frontend/dist
+
+# misc
+frontend/.DS_Store
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
