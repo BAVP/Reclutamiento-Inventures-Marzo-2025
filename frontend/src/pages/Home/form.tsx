@@ -19,7 +19,7 @@ export function LinkForm() {
 
   return (
     <>
-      <form className="w-full max-w-sm w-4/5 mx-auto py-[3rem] flex flex-col gap-6">
+      <form className="max-w-sm w-4/5 mx-auto py-[3rem] flex flex-col gap-6">
         <div>
           <p className="text-3xl text-center text-white">Acortador de links</p>
         </div>

@@ -1,17 +1,17 @@
 ### Create a url ###
-POST http://localhost:3000/urls/
+POST http://localhost:3000/api/urls/
 Content-Type: application/json
 
 {
-    "url": "https://google.cl"
+    "url": "https://youtube.cl"
 }
 
 ### Get by sufix ###
-GET http://localhost:3000/urls/ii6X
+GET http://localhost:3000/api/urls/ii6X
 
 ### Simulate click ###
-PATCH http://localhost:3000/urls/ii6X/click
+PATCH http://localhost:3000/api/urls/ii6X/click
 
 
 ### Delete by id ###
-DELETE http://localhost:3000/urls/67e94f4740ae04b88776ae18 
+DELETE http://localhost:3000/api/urls/67e94f4740ae04b88776ae18 

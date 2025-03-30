@@ -78,7 +78,7 @@ export class UrlModel {
     // Increment clicks and return long url
     url.clicks += 1;
     url.save();
-    return UrlModel.createResult(process.env.MY_DOMAIN + url.url!);
+    return UrlModel.createResult(url.url!);
   }
 
   static async deleteById(id: String) {

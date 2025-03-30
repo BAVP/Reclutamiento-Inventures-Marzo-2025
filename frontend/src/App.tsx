@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { HomePage } from "./pages/Home/index";
 import { UrlPage } from "./pages/Url/index";
+import { Redirect } from "./pages/Redirect";
 
 function App() {
   return (
@@ -9,6 +10,8 @@ function App() {
       <Routes>
         <Route path="/" Component={HomePage} />
         <Route path="/info" Component={UrlPage} />
+        <Route path="/:sufix" Component={Redirect} />
+        <Route path="*" Component={HomePage} />
       </Routes>
     </BrowserRouter>
   );

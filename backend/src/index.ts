@@ -23,7 +23,7 @@ db.on("disconnected", () => console.log("[MongoDB] Disconnected"));
 
 // Routes
 import { urlRouter } from "./routes/urlRoutes";
-app.use("/urls", urlRouter);
+app.use("/api/urls", urlRouter);
 
 // Start server
 app.listen(port, () => {
