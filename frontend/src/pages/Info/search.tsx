@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Button } from "../../components/ui/Button";
 import { searchUrl } from "../../api/url";
-import { Table } from "./table";
+import { Table } from "./urlTable";
 
-export function Search() {
+export function Search(props: { onSearch: any }) {
   const [sufix, setSufix] = useState(""); // To store sufix searched
   const [data, setData] = useState<{
     _id: String;
@@ -36,10 +36,12 @@ export function Search() {
       })
       .then((data) => {
         setData(data);
+        props.onSearch(data.clicksInformation);
       })
       .catch((err) => {
         console.log(err);
         setError(err.message);
+        props.onSearch([]);
       })
       .finally(() => {
         setIsLoading(false);

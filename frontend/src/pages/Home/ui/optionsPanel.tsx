@@ -8,7 +8,7 @@ export function OptionsPanel(props: {
     <>
       <div className="w-[90%] mx-auto">
         <label className="text-lg">Custom Sufix</label>
-        <div className="flex items-center border-b border-teal-500 dark:border-red-500 py-2 text-gray-500">
+        <div className="flex items-center">
           <div className=" w-4/5 flex items-center border-b border-teal-500 dark:border-red-500 py-2 mx-auto text-black dark:text-white">
             <div>
               <p>http://localhost:5173.com/</p>

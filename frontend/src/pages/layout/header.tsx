@@ -30,11 +30,6 @@ export function Header() {
   return (
     <>
       <header>
-        <img
-          src="@/assets/react.svg"
-          className="mr-3 h-6 sm:h-9"
-          alt="Flowbite Logo"
-        />
         <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
           <div
             className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1"

@@ -25,6 +25,17 @@ export class UrlController {
     return UrlController.createResponse(req, res, result);
   }
 
+  static async checkIfSufixExist(req: Request, res: Response) {
+    const { sufix } = req.params;
+    if (!sufix)
+      return res
+        .status(400)
+        .json({ error: { code: 400, message: "Not sufix provided" } });
+
+    const result = await UrlModel.checkIfSufixExist(sufix);
+    return UrlController.createResponse(req, res, result);
+  }
+
   static async clickUrlBySufix(req: Request, res: Response) {
     const { sufix } = req.params;
     if (!sufix)
@@ -32,7 +43,8 @@ export class UrlController {
         .status(400)
         .json({ error: { code: 400, message: "Not sufix provided" } });
 
-    const result = await UrlModel.clickUrlBySufix(sufix);
+    const extraData = req.body;
+    const result = await UrlModel.clickUrlBySufix(sufix, extraData);
     return UrlController.createResponse(req, res, result);
   }
 

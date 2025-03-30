@@ -9,7 +9,7 @@ export const InternetInfoSchema = new mongoose.Schema({
   city: { type: String },
   lat: { type: String },
   lon: { type: String },
-  timestamp: { type: String, default: Date.now() },
+  timestamp: { type: Date, default: Date.now() },
 });
 
 export const UrlSchema = new mongoose.Schema({

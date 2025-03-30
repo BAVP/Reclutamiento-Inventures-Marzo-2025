@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { BASE_URL } from "../../../api/url";
+import { useRef, useState } from "react";
+import { BASE_URL, checkIfSufixExist } from "../../../api/url";
 import { UrlResult } from "./urlResult";
 import { Button } from "../../../components/ui/Button";
 import { OptionsPanel } from "./optionsPanel";
@@ -13,6 +13,9 @@ export function UrlForm() {
   const [isOptionsOpen, setIsOptionsOpen] = useState(false); // Open / Close options panel
   const [urlErrors, setUrlErrors] = useState<String[]>([]); // To store url errors during validation
   const [sufixErrors, setSufixErrors] = useState<String[]>([]); // To store sufix errors during validation
+
+  const urlRef = useRef(url);
+  const sufixRef = useRef(assignedSufix);
 
   // Open and close advanced options
   const handleToogleOptions = (e: any) => {
@@ -28,38 +31,49 @@ export function UrlForm() {
   };
 
   // Validate sufix provided by user
-  const handleSufixChange = (e: any) => {
+  const handleSufixChange = async (e: any) => {
     setDesiredSufix(e.target.value);
-    validateSufix(e.target.value);
+    await validateSufix(e.target.value);
   };
 
   // Cut url calling the backend.
-  const handleCutUrl = (e: any) => {
+  const handleCutUrl = async (e: any) => {
     e.preventDefault();
 
-    // Validation
+    // Validaciones
     if (!validateUrl()) return;
 
-    // Validate only if sufix is provided, and advanced options panel is open
-    if (desiredSufix !== "" && isOptionsOpen && validateSufix()) return;
-    fetch(BASE_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        url: url,
-        sufix: desiredSufix !== "" ? desiredSufix : null, // If no sufix is provided, backend will return an auto-gen sufix
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        const newUrl = "http://localhost:5173/" + (data.sufix as String);
-        setAssignedSufix(newUrl);
-      })
-      .catch((err) => {
-        console.log(err);
+    if (isOptionsOpen && desiredSufix !== "") {
+      if (!(await validateSufix())) return;
+    }
+
+    try {
+      const response = await fetch(BASE_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          url: url,
+          sufix: desiredSufix !== "" && isOptionsOpen ? desiredSufix : null, // If no sufix is provided, backend will return an auto-gen sufix
+        }),
       });
+
+      if (!response.ok) {
+        throw new Error(
+          `[Fetch - Error] ${response.status} - ${response.statusText}`
+        );
+      }
+
+      const data = await response.json();
+      const newUrl = `http://localhost:5173/${data.sufix as string}`;
+
+      setAssignedSufix(newUrl);
+      urlRef.current = url;
+      sufixRef.current = newUrl;
+    } catch (err) {
+      console.error("[Fetch - Error] ", err);
+    }
   };
 
   // Simple form validation
@@ -81,7 +95,7 @@ export function UrlForm() {
     return isUrlValid;
   };
 
-  const validateSufix = (sufixValue: String = desiredSufix) => {
+  const validateSufix = async (sufixValue: String = desiredSufix) => {
     let isSufixValid = true;
     let tempSufixErrors = [];
 
@@ -95,18 +109,28 @@ export function UrlForm() {
       tempSufixErrors.push("Url cannot contain whitespaces");
     }
 
+    if (await sufixAlreadyExist(sufixValue)) {
+      isSufixValid = false;
+      tempSufixErrors.push("Sufix already used");
+    }
+
     setSufixErrors(tempSufixErrors);
     return isSufixValid;
   };
 
+  const sufixAlreadyExist = async (sufix: String) => {
+    const res = await fetch(checkIfSufixExist(sufix), { method: "get" });
+    if (res.status === 302) return true;
+    return false;
+  };
   return (
-    <form className="mt-[10rem] text-teal-500 dark:text-red-500 w-1/2 shadow-2xl mx-auto py-[3rem] flex flex-col gap-6">
+    <form className="mt-[2rem] text-teal-500 dark:text-red-500 w-1/2 shadow-2xl mx-auto py-[3rem] flex flex-col gap-6">
       <div>
         <p className="text-3xl text-center">Acortador de links</p>
       </div>
       <UrlInput onChange={handleUrlChange} value={url} onClick={handleCutUrl} />
       <InputErrors errors={urlErrors} />
-      <UrlResult url={url} sufix={assignedSufix} />
+      <UrlResult url={urlRef.current} sufix={sufixRef.current} />
       <div className="w-fit mx-auto">
         <Button onClick={handleToogleOptions} text={"Advanced Options"} />
       </div>

@@ -45,6 +45,18 @@ export class UrlModel {
     return UrlModel.createResult(urls[0]);
   }
 
+  // Check if sufix is already in use. It does not return a full entry, so optimize net bandwidth
+  static async checkIfSufixExist(sufix: string) {
+    const urls = await UrlDBModel.find({
+      sufix: sufix,
+      isActive: true,
+    });
+
+    if (urls.length === 0)
+      return UrlModel.createError(404, "Not active url was found.");
+    return UrlModel.createResult("", 302);
+  }
+
   // Create a new url
   static async createUrl(urlData: { url: String; sufix: String }) {
     // Check sufix unicity. If url is not active, then sufix can be used again.
@@ -67,7 +79,7 @@ export class UrlModel {
   }
 
   // Get long url and increment click
-  static async clickUrlBySufix(sufix: string) {
+  static async clickUrlBySufix(sufix: string, extraData: any = {}) {
     const url = await UrlDBModel.findOne({
       sufix: sufix,
       isActive: true,
@@ -77,6 +89,8 @@ export class UrlModel {
 
     // Increment clicks and return long url
     url.clicks += 1;
+    extraData.ip = extraData.query;
+    url.clicksInformation.push(extraData);
     url.save();
     return UrlModel.createResult(url.url!);
   }
