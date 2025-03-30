@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { clickUrl } from "../../api/url";
+import { Layout } from "../layout/layout";
 
 export function Redirect() {
   const navigate = useNavigate();
@@ -17,8 +18,10 @@ export function Redirect() {
     })
       .then((res) => res.text())
       .then((url) => {
+        // Remove double quotes
         url = url.replace(/"/g, "");
-        console.log(url);
+
+        // Redirect to url only if its a valid url
         if (url && url.startsWith("http")) {
           window.location.href = url;
         } else {
@@ -29,8 +32,12 @@ export function Redirect() {
   }, [navigate]);
 
   return (
-    <div>
-      <h1>Redirecting...</h1>
-    </div>
+    <>
+      <Layout>
+        <div>
+          <h1>Redirecting...</h1>
+        </div>
+      </Layout>
+    </>
   );
 }

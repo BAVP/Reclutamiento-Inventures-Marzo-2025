@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { HomePage } from "./pages/Home/index";
-import { UrlPage } from "./pages/Url/index";
+import { UrlPage } from "./pages/Info/index";
 import { Redirect } from "./pages/Redirect";
 
 function App() {
