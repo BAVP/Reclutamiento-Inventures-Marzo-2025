@@ -29,7 +29,13 @@ export function Header() {
 
   return (
     <>
-      <header>
+      <header className="flex items-center">
+        <a
+          href="/"
+          className="font-bold hover:cursor-pointer text-3xl mx-3 my-3"
+        >
+          SHORTY
+        </a>
         <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
           <div
             className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1"
