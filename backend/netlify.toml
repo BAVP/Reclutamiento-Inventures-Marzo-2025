@@ -1,0 +1,9 @@
+[build]
+  command = "npm install && npm run build"
+  publish = "backend/build"               
+  functions = "netlify/functions"      
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/server"        # Redirige las rutas API al servidor de la función serverless
+  status = 200

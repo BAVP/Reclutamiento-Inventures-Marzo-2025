@@ -7,11 +7,14 @@ Content-Type: application/json
 }
 
 ### Get by sufix ###
-GET http://localhost:3000/api/urls/ii6X
+GET http://localhost:3000/api/urls/HbpWr1WE
 
 ### Simulate click ###
-PATCH http://localhost:3000/api/urls/ii6X/click
+PATCH http://localhost:3000/api/urls/HbpWr1WE/clicks
 
 
 ### Delete by id ###
 DELETE http://localhost:3000/api/urls/67e94f4740ae04b88776ae18 
+
+### Check if exist ###
+GET http://localhost:3000/api/urls/HbpWr1WE/exist
