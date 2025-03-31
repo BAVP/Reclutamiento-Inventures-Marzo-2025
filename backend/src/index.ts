@@ -1,8 +1,9 @@
 import express, { Application } from "express";
+import path from "path";
 import { corsMiddleware } from "./middleware/cors";
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-// Basic server configuration
+// =================== Basic server configuration ============================= //
 const app: Application = express();
 const port = process.env.PORT || 3000;
 
@@ -10,9 +11,12 @@ app.disable("x-powered-by");
 app.use(express.json());
 app.use(corsMiddleware());
 
-// Mongoose connection
+// ================= Basic frontend configuration ============================= //
+app.use(express.static(path.join(__dirname, "build")));
+
+// ======================= Database Configuration ============================= //
 mongoose
-  .connect(process.env.DATABASE_URL, {})
+  .connect(process.env.DATABASE_URL!, {})
   .then(() => console.log("[MongoDB] Connected "))
   .catch((error: any) => console.error("[MongoDB - Error]", error));
 
@@ -21,9 +25,15 @@ const db = mongoose.connection;
 db.on("error", (error: any) => console.error("[MongoDB - Error]", error));
 db.on("disconnected", () => console.log("[MongoDB] Disconnected"));
 
-// Routes
+// ================================ ROUTES ===================================== //
+// Backend
 import { urlRouter } from "./routes/urlRoutes";
 app.use("/api/urls", urlRouter);
+
+// Frontend
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend/build", "index.html"));
+});
 
 // Start server
 app.listen(port, () => {
@@ -31,11 +41,16 @@ app.listen(port, () => {
 });
 
 // Release mongoose resources
-process.on("SIGINT", () => {
-  mongoose.connection.close(() => {
-    console.log(
-      "Mongoose connection is disconnected due to application termination"
-    );
+process.on("SIGINT", async () => {
+  try {
+    await mongoose.connection.close();
+    console.log("[MongoDB] Disconnected due to application termination");
     process.exit(0);
-  });
+  } catch (err) {
+    console.error(
+      "[MongoDB - Error] Error while closing Mongoose connection:",
+      err
+    );
+    process.exit(1);
+  }
 });
