@@ -28,6 +28,7 @@ db.on("disconnected", () => console.log("[MongoDB] Disconnected"));
 // ================================ ROUTES ===================================== //
 // Backend
 import { urlRouter } from "./routes/urlRoutes";
+import { preprocess } from "zod";
 app.use("/api/urls", urlRouter);
 
 // Frontend
@@ -37,7 +38,7 @@ app.get("*", (req, res) => {
 
 // Start server
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`Server running at ${process.env.DOMAIN}:${port}`);
 });
 
 // Release mongoose resources

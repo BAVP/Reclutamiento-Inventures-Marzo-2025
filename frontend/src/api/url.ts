@@ -1,4 +1,8 @@
-export const BASE_URL = "http://localhost:3000/api/urls/";
+// Development
+// export const BASE_URL = "http://localhost:3000/api/urls/";
+
+// Production
+export const BASE_URL = window.location.origin + "/api/urls/";
 
 // RETURN JUST ENDPOINTS
 
