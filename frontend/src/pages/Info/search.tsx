@@ -58,7 +58,7 @@ export function Search(props: { onSearch: any }) {
       <label className="text-lg">Custom Sufix</label>
       <div className="flex items-center border-b border-teal-500 dark:border-red-500 py-2 mx-auto text-black dark:text-white">
         <div>
-          <p>http://localhost:5173.com/</p>
+          <p>{window.location.origin}</p>
         </div>
         <input
           className="appearance-none bg-transparent border-none text-gray-600 dark:text-white mr-3 py-1 pr-2 leading-tight focus:outline-none"
