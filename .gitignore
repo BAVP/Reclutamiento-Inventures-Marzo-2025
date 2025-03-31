@@ -7,9 +7,6 @@ backend/.pnp.js
 # testing
 backend/coverage
 
-# production
-backend/build
-
 # misc
 backend/.DS_Store
 backend/.env
