@@ -66,7 +66,7 @@ export function UrlForm() {
       }
 
       const data = await response.json();
-      const newUrl = `http://localhost:5173/${data.sufix as string}`;
+      const newUrl = `${window.location.origin}/${data.sufix as string}`;
 
       setAssignedSufix(newUrl);
       urlRef.current = url;
